@@ -1,0 +1,12 @@
+<launch>
+
+  <node pkg="service_pkg" name="camera_listener" type="camera_listener.py" output="screen">
+  </node>
+
+  <node pkg="service_pkg" name="joint_listener" type="joint_listener.py" output="screen">
+  </node>
+
+
+
+</launch>
+
