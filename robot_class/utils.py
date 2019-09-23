@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
-import numpy as np
 import math
-
+import numpy as np
 
 # Returns a normalized numpy array
 def normalize_vector(v):

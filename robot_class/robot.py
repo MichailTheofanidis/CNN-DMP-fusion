@@ -224,6 +224,36 @@ class MyRobot:
 
         return traj, d_traj, dd_traj, time, found
 
+    # Design a trajectory from keypoints
+    def generate_test_trajectory(self, joints, key, orient, time):
+
+        # Flag to see if solution is found
+        found = True
+
+        # Get the initial joint position
+        solver = self.ik_init()
+
+        q_i, dq_i, ddq_i = self.get_joint_state(joints)
+
+        # Find the target joint position
+        q_f = None
+        cnt = 0
+        while q_f is None:
+
+            position = [key[cnt, 0], key[cnt, 1], key[cnt, 2]]
+            q_f = self.ik_solution(solver, position, orient, q_i)
+            cnt += 1
+
+            if cnt == key.shape[0]:
+                q_f = q_i
+                found = False
+
+        q_f = self.ik_constrain(q_f)
+
+        traj, d_traj, dd_traj = self.parabolic_trajectory(q_i, q_f, time)
+
+        return traj, d_traj, dd_traj, time, found, q_f, position, orient
+
     # Design a trajectory with parabolic blends
     def parabolic_trajectory(self, q_i, q_f, time):
 
